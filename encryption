@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <string>
+#include <deque>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <fstream>
+using namespace std;
+using ll = long long;
+using ull = unsigned long  long;
+
+pair<string, vector <ll>> encryption(string str) {
+    vector <ll>num;
+    ll size = str.size();
+    for (ll i = 1; i <= size; ++i) {
+        num.push_back(i);
+    }
+    vector <ll>ans1;
+    string ans2 = "";
+    ll n = ceil(sqrt(size));
+    vector <vector<ll>> table(n, vector <ll>(n));
+    for (ll i = 0; i < n; ++i) {
+        for (ll j = 0; j < n && (i * n + j) < size; ++j) {
+            table[i][j] = str[i * n + j];
+        }
+    }
+    for (ll i = 0; i < n; ++i) {
+        for (ll j = 0; j < n && (j * n + i) < size; ++j) {
+            ans1.push_back(num[j * n + i]);
+            ans2 += str[num[j * n + i] - 1];
+        }
+    }
+    pair<string, vector<ll>> ans;
+    ans.first = ans2;
+    ans.second = ans1;
+    return ans;
+}
+int main() {
+    string str;
+    getline(cin, str);
+    cout << decoding(str).first << "\n";
+    for (ll i = 0; i < decoding(str).second.size(); ++i) {
+        cout << decoding(str).second[i] << " ";
+    }
+    return 0;
+}
